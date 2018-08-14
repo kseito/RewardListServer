@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @Controller
 @RequestMapping("tasks")
-class TaskController {
+class TaskController(private val taskRepository: TaskRepository) {
 
     @GetMapping("")
     fun index(model: Model): String {
-        val tasks = listOf(
-                Task(1, "英単語を覚える", false),
-                Task(2, "晩御飯の食材を買う", false)
-        )
+        val tasks = taskRepository.findAll()
         model.addAttribute("tasks", tasks)
         return "tasks/index"
     }
