@@ -13,7 +13,7 @@ class InMemoryTaskRepository : TaskRepository {
     override fun create(content: String): Task {
         val id = maxId + 1
         val task = Task(id, content, false)
-        tasks += tasks
+        tasks += task
         return task
     }
 
