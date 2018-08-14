@@ -17,4 +17,9 @@ class TaskController(private val taskRepository: TaskRepository) {
         model.addAttribute("tasks", tasks)
         return "tasks/index"
     }
+
+    @GetMapping("new")
+    fun new(form: TaskCreateForm): String {
+        return "tasks/new"
+    }
 }
