@@ -1,5 +1,6 @@
 package kzt.project.rewardlist
 
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -52,4 +53,8 @@ class TaskController(private val taskRepository: TaskRepository) {
         taskRepository.update(newTask)
         return "redirect:/tasks"
     }
+
+    @ExceptionHandler(NotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleNotFoundException(): String = "tasks/not_found"
 }
