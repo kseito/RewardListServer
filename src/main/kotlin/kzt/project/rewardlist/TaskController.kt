@@ -28,8 +28,7 @@ class TaskController(private val taskRepository: TaskRepository) {
         if (bindingResult.hasErrors()) return "tasks/new"
 
         val content = requireNotNull(form.content)
-        val create = taskRepository.create(content)
-        println(create.toString())
+        taskRepository.create(content)
         return "redirect:/tasks"
     }
 
