@@ -17,6 +17,12 @@ class RewardlistApplication {
             content VARCHAR(100)    NOT NULL,
             done    BOOLEAN         NOT NULL DEFAULT FALSE
             )""")
+        jdbcTemplate.execute("""
+            CREATE TABLE IF NOT EXISTS user (
+            id          BIGINT          PRIMARY KEY AUTO_INCREMENT,
+            todoist_id  BIGINT          NOT NULL,
+            point       INTEGER         DEFAULT 0
+            ) """)
     }
 }
 
