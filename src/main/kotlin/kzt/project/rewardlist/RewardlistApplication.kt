@@ -21,7 +21,8 @@ class RewardlistApplication {
             CREATE TABLE IF NOT EXISTS user (
             id          BIGINT          PRIMARY KEY AUTO_INCREMENT,
             todoist_id  BIGINT          NOT NULL,
-            point       INTEGER         DEFAULT 0
+            point       INTEGER         DEFAULT 0,
+            UNIQUE(todoist_id)
             ) """)
     }
 }
