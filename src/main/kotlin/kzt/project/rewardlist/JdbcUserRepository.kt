@@ -5,7 +5,6 @@ import kzt.project.rewardlist.model.User
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
-import org.thymeleaf.exceptions.AlreadyInitializedException
 
 @Repository
 class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepository {
@@ -24,8 +23,7 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
         return User(id, todoistId, 0)
     }
 
-    override fun findById(user: User): User {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun findById(id: Long): User? =
+            jdbcTemplate.query("SELECT id, todoist_id, point FROM user WHERE id = ?", rowMapper, id).firstOrNull()
 
 }

@@ -6,5 +6,5 @@ interface UserRepository {
 
     fun create(todoistId: Long): User
 
-    fun findById(user: User): User
+    fun findById(id: Long): User?
 }

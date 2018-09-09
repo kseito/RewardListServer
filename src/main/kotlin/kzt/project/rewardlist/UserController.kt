@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("api/users")
 class UserController(private val userRepository: UserRepository) {
 
     @PostMapping("")
@@ -22,6 +22,11 @@ class UserController(private val userRepository: UserRepository) {
         map["status"] = HttpStatus.FORBIDDEN.value()
         map["message"] = "already exists"
         return map
+    }
+
+    @GetMapping("{id}")
+    fun index(@PathVariable("id") id: Long): User {
+        return userRepository.findById(id) ?: throw NotFoundException()
     }
 
 }
