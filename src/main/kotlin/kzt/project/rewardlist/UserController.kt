@@ -17,7 +17,7 @@ class UserController(private val userRepository: UserRepository) {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AlreadyExistsException::class)
     @ResponseBody
-    fun handleError(): Map<String, Any> {
+    fun handleUserAlreadyExistError(): Map<String, Any> {
         val map = HashMap<String, Any>()
         map["status"] = HttpStatus.FORBIDDEN.value()
         map["message"] = "already exists"
@@ -27,6 +27,16 @@ class UserController(private val userRepository: UserRepository) {
     @GetMapping("{id}")
     fun index(@PathVariable("id") id: Long): User {
         return userRepository.findById(id) ?: throw NotFoundException()
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotFoundException::class)
+    @ResponseBody
+    fun handleUserNotFoundError(): Map<String, Any> {
+        val map = HashMap<String, Any>()
+        map["status"] = HttpStatus.BAD_REQUEST.value()
+        map["message"] = "user not found"
+        return map
     }
 
 }
