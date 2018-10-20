@@ -24,9 +24,9 @@ class UserController(private val userRepository: UserRepository) {
         return map
     }
 
-    @GetMapping("{id}")
-    fun index(@PathVariable("id") id: Long): User {
-        return userRepository.findById(id) ?: throw NotFoundException()
+    @GetMapping("{todoist_id}")
+    fun index(@PathVariable("todoist_id") todoistId: Long): User {
+        return userRepository.findById(todoistId) ?: throw NotFoundException()
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
