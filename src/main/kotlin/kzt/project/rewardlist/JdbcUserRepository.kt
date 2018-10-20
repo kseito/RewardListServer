@@ -8,13 +8,12 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepository {
-
     private val rowMapper = RowMapper { rs, _ ->
         User(rs.getLong("id"), rs.getLong("todoist_id"), rs.getInt("point"))
     }
 
     override fun create(todoistId: Long): User {
-        val user = jdbcTemplate.query("SELECT id, todoist_id, point FROM user WHERE todoist_id = ?", rowMapper, todoistId).firstOrNull()
+        val user = findById(todoistId)
         if (user != null) {
             throw AlreadyExistsException()
         }
@@ -25,6 +24,11 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
 
     override fun findById(todoistId: Long): User? =
             jdbcTemplate.query("SELECT id, todoist_id, point FROM user WHERE todoist_id = ?", rowMapper, todoistId).firstOrNull()
+
+    override fun updatePoint(userId: Long, point: Int): String {
+        jdbcTemplate.update("UPDATE user SET point = $point WHERE id = ?", userId)
+        return "hoge"
+    }
 
 
 }

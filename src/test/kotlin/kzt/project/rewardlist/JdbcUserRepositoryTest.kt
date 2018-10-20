@@ -16,6 +16,8 @@ class JdbcUserRepositoryTest {
     @Autowired
     private lateinit var repository: JdbcUserRepository
 
+    private val todoistId = 1L
+
     @Test
     fun shouldCreateNewUser() {
         val user = repository.create(1)
@@ -26,9 +28,19 @@ class JdbcUserRepositoryTest {
 
     @Test
     fun shouldFindCreatedUser() {
-        val createdUser = repository.create(1)
-        val foundUser = repository.findById(createdUser.id)
+        val createdUser = repository.create(todoistId)
+        val foundUser = repository.findById(todoistId)
 
         assertThat(foundUser).isEqualTo(createdUser)
+    }
+
+    @Test
+    fun shouldUpdateCreatedUser() {
+        repository.create(todoistId)
+        val createdUser = repository.findById(1)
+        repository.updatePoint(createdUser!!.id, 12)
+        val actual = repository.findById(todoistId)
+
+        assertThat(actual!!.point).isEqualTo(12)
     }
 }
