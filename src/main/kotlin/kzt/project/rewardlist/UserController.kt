@@ -41,7 +41,7 @@ class UserController(private val userRepository: UserRepository) {
 
 
     @PutMapping("{user_id}")
-    fun updatePoint(@PathVariable("user_id") userId: Long, @RequestParam("additional_point") point: Int): String {
+    fun updatePoint(@PathVariable("user_id") userId: Long, @RequestParam("additional_point") point: Int): User {
         return userRepository.updatePoint(userId, point)
     }
 }

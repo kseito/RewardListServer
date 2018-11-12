@@ -8,5 +8,5 @@ interface UserRepository {
 
     fun findByTodoistId(todoistId: Long): User?
 
-    fun updatePoint(userId: Long, point: Int): String
+    fun updatePoint(userId: Long, point: Int): User
 }
