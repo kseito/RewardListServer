@@ -29,7 +29,7 @@ class JdbcUserRepositoryTest {
     @Test
     fun shouldFindCreatedUser() {
         val createdUser = repository.create(todoistId)
-        val foundUser = repository.findById(todoistId)
+        val foundUser = repository.findByTodoistId(todoistId)
 
         assertThat(foundUser).isEqualTo(createdUser)
     }
@@ -37,10 +37,15 @@ class JdbcUserRepositoryTest {
     @Test
     fun shouldUpdateCreatedUser() {
         repository.create(todoistId)
-        val createdUser = repository.findById(1)
+        val createdUser = repository.findByTodoistId(todoistId)
         repository.updatePoint(createdUser!!.id, 12)
-        val actual = repository.findById(todoistId)
+        var actual = repository.findByTodoistId(todoistId)
 
         assertThat(actual!!.point).isEqualTo(12)
+
+        repository.updatePoint(createdUser.id, -5)
+        actual = repository.findByTodoistId(todoistId)
+
+        assertThat(actual!!.point).isEqualTo(7)
     }
 }

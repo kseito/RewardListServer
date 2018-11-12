@@ -26,7 +26,7 @@ class UserController(private val userRepository: UserRepository) {
 
     @GetMapping("{todoist_id}")
     fun index(@PathVariable("todoist_id") todoistId: Long): User {
-        return userRepository.findById(todoistId) ?: throw NotFoundException()
+        return userRepository.findByTodoistId(todoistId) ?: throw NotFoundException()
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -39,4 +39,9 @@ class UserController(private val userRepository: UserRepository) {
         return map
     }
 
+
+    @PutMapping("{user_id}")
+    fun updatePoint(@PathVariable("user_id") userId: Long, @RequestParam("additional_point") point: Int): String {
+        return userRepository.updatePoint(userId, point)
+    }
 }

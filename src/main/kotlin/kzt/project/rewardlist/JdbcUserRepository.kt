@@ -13,7 +13,7 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
     }
 
     override fun create(todoistId: Long): User {
-        val user = findById(todoistId)
+        val user = findByTodoistId(todoistId)
         if (user != null) {
             throw AlreadyExistsException()
         }
@@ -22,13 +22,18 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
         return User(id, todoistId, 0)
     }
 
-    override fun findById(todoistId: Long): User? =
+    override fun findByTodoistId(todoistId: Long): User? =
             jdbcTemplate.query("SELECT id, todoist_id, point FROM user WHERE todoist_id = ?", rowMapper, todoistId).firstOrNull()
 
     override fun updatePoint(userId: Long, point: Int): String {
-        jdbcTemplate.update("UPDATE user SET point = $point WHERE id = ?", userId)
+        val user = findById(userId) ?: throw NotFoundException()
+        val newPoint = user.point + point
+        jdbcTemplate.update("UPDATE user SET point = $newPoint WHERE id = ?", userId)
         return "hoge"
     }
+
+    private fun findById(userId: Long): User? =
+            jdbcTemplate.query("SELECT id, todoist_id, point FROM user WHERE id = ?", rowMapper, userId).firstOrNull()
 
 
 }

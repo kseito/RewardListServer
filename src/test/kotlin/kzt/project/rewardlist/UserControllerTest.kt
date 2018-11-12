@@ -2,7 +2,6 @@ package kzt.project.rewardlist
 
 import com.squareup.moshi.Moshi
 import kzt.project.rewardlist.model.User
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,7 +40,7 @@ class UserControllerTest {
     @Test
     fun ifFoundUser_shouldReturnUser() {
         val user = User(123456, 1, 0)
-        Mockito.`when`(userRepository.findById(123456)).thenReturn(user)
+        Mockito.`when`(userRepository.findByTodoistId(123456)).thenReturn(user)
 
         val moshi = Moshi.Builder().build()
         val adapter = moshi.adapter(User::class.java)
@@ -52,7 +51,7 @@ class UserControllerTest {
 
     @Test
     fun ifNotFoundUser_shouldThrowException() {
-        Mockito.`when`(userRepository.findById(123456)).thenReturn(null)
+        Mockito.`when`(userRepository.findByTodoistId(123456)).thenReturn(null)
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/123456"))
                 .andExpect(content().string(Matchers.containsString("user not found")))
