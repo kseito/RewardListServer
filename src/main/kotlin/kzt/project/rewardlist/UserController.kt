@@ -1,6 +1,10 @@
 package kzt.project.rewardlist
 
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
 import kzt.project.rewardlist.exception.AlreadyExistsException
+import kzt.project.rewardlist.model.TodoistEvent
+import kzt.project.rewardlist.model.TodoistWebhookResponse
 import kzt.project.rewardlist.model.User
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -43,5 +47,12 @@ class UserController(private val userRepository: UserRepository) {
     @PutMapping("{user_id}")
     fun updatePoint(@PathVariable("user_id") userId: Long, @RequestParam("additional_point") point: Int): User {
         return userRepository.updatePoint(userId, point)
+    }
+
+    @PostMapping("/receive")
+    fun addPointFromWebhook(@RequestBody json: String): String {
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        val adapter = moshi.adapter(TodoistWebhookResponse::class.java)
+        return "" + adapter.fromJson(json)?.eventData?.user_id
     }
 }

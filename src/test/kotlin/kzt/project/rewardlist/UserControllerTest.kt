@@ -57,4 +57,10 @@ class UserControllerTest {
                 .andExpect(content().string(Matchers.containsString("user not found")))
     }
 
+    @Test
+    fun canAddPoint() {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive").content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\"}}"))
+                .andExpect(content().string("1"))
+    }
+
 }
