@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepository {
+
     private val rowMapper = RowMapper { rs, _ ->
         User(rs.getLong("id"), rs.getLong("todoist_id"), rs.getInt("point"))
     }
@@ -20,6 +21,10 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
         jdbcTemplate.update("INSERT INTO user(todoist_id) VALUES(?)", todoistId)
         val id: Long = jdbcTemplate.queryForObject("SELECT last_insert_id()") ?: throw NotFoundException()
         return User(id, todoistId, 0)
+    }
+
+    override fun update(todoistId: Long, additionalPoint: Int): User {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun findByTodoistId(todoistId: Long): User? =

@@ -59,8 +59,10 @@ class UserControllerTest {
 
     @Test
     fun canAddPoint() {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive").content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\"}}"))
-                .andExpect(content().string("1"))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
+                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\"}}"))
+
+        Mockito.verify(userRepository).update(1, 1)
     }
 
 }
