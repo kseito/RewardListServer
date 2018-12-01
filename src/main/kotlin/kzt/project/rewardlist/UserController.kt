@@ -48,11 +48,12 @@ class UserController(private val userRepository: UserRepository) {
         return userRepository.updatePointById(userId, point)
     }
 
-    @PostMapping("/receive")
-    fun addPointFromWebhook(@RequestBody json: String) {
+    @PostMapping("receive")
+    fun addPointFromWebhook(@RequestBody json: String): User {
+        println("Received Json is $json")
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val adapter = moshi.adapter(TodoistWebhookResponse::class.java)
-        val todoistId = adapter.fromJson(json)?.eventData?.user_id ?: return
-        userRepository.updatePointByTodoistId(todoistId, 1)
+        val todoistId = adapter.fromJson(json)?.eventData?.user_id
+        return userRepository.updatePointByTodoistId(todoistId!!, 1)
     }
 }
