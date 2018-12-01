@@ -48,4 +48,19 @@ class JdbcUserRepositoryTest {
 
         assertThat(actual!!.point).isEqualTo(7)
     }
+
+    @Test
+    fun shouldUpdatePoint() {
+        repository.create(todoistId)
+        repository.updatePointByTodoistId(todoistId, 6)
+        var actual = repository.findByTodoistId(todoistId)
+
+        assertThat(actual!!.point).isEqualTo(6)
+
+        repository.updatePointByTodoistId(todoistId, 3)
+
+        actual = repository.findByTodoistId(todoistId)
+
+        assertThat(actual!!.point).isEqualTo(9)
+    }
 }
