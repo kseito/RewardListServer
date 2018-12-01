@@ -38,12 +38,12 @@ class JdbcUserRepositoryTest {
     fun shouldUpdateCreatedUser() {
         repository.create(todoistId)
         val createdUser = repository.findByTodoistId(todoistId)
-        repository.updatePoint(createdUser!!.id, 12)
+        repository.updatePointById(createdUser!!.id, 12)
         var actual = repository.findByTodoistId(todoistId)
 
         assertThat(actual!!.point).isEqualTo(12)
 
-        repository.updatePoint(createdUser.id, -5)
+        repository.updatePointById(createdUser.id, -5)
         actual = repository.findByTodoistId(todoistId)
 
         assertThat(actual!!.point).isEqualTo(7)

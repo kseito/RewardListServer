@@ -6,9 +6,9 @@ interface UserRepository {
 
     fun create(todoistId: Long): User
 
-    fun update(todoistId: Long, additionalPoint: Int): User
+    fun updatePointByTodoistId(todoistId: Long, additionalPoint: Int): User
 
     fun findByTodoistId(todoistId: Long): User?
 
-    fun updatePoint(userId: Long, point: Int): User
+    fun updatePointById(userId: Long, point: Int): User
 }

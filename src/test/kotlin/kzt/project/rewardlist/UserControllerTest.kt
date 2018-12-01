@@ -62,7 +62,7 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
                 .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\"}}"))
 
-        Mockito.verify(userRepository).update(1, 1)
+        Mockito.verify(userRepository).updatePointByTodoistId(1, 1)
     }
 
 }
