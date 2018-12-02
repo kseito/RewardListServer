@@ -53,7 +53,19 @@ class UserController(private val userRepository: UserRepository) {
         println("Received Json is $json")
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val adapter = moshi.adapter(TodoistWebhookResponse::class.java)
-        val todoistId = adapter.fromJson(json)?.eventData?.user_id
-        return userRepository.updatePointByTodoistId(todoistId!!, 1)
+        val todoistResponse = adapter.fromJson(json) ?: throw NotFoundException()
+        val todoistId = todoistResponse.eventData.userId
+        val priority = todoistResponse.eventData.priority
+        val point = convertPriorityToPoint(priority)
+        return userRepository.updatePointByTodoistId(todoistId, point)
+    }
+
+    private fun convertPriorityToPoint(priority: Int): Int {
+        return when(priority) {
+            4 -> 8
+            3 -> 5
+            2 -> 3
+            else -> 1
+        }
     }
 }

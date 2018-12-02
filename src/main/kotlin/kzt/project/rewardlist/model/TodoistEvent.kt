@@ -1,3 +1,5 @@
 package kzt.project.rewardlist.model
 
-data class TodoistEvent(val user_id: Long)
+import com.squareup.moshi.Json
+
+data class TodoistEvent(@Json(name = "user_id")val userId: Long, val priority: Int)

@@ -58,11 +58,34 @@ class UserControllerTest {
     }
 
     @Test
-    fun canAddPoint() {
+    fun canAddOnePointWithPriorityOne() {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
-                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\"}}"))
+                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\",\"priority\": 1}}"))
 
         Mockito.verify(userRepository).updatePointByTodoistId(1, 1)
     }
 
+    @Test
+    fun canAddOnePointWithPriorityTwo() {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
+                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\",\"priority\": 2}}"))
+
+        Mockito.verify(userRepository).updatePointByTodoistId(1, 3)
+    }
+
+    @Test
+    fun canAddOnePointWithPriorityThree() {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
+                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\",\"priority\": 3}}"))
+
+        Mockito.verify(userRepository).updatePointByTodoistId(1, 5)
+    }
+
+    @Test
+    fun canAddOnePointWithPriorityFour() {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/users/receive")
+                .content("{\"event_data\":{\"user_id\":1,\"content\":\"Hello World\",\"priority\": 4}}"))
+
+        Mockito.verify(userRepository).updatePointByTodoistId(1, 8)
+    }
 }
