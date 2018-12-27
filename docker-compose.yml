@@ -1,9 +1,19 @@
 version: "3"
 services:
 
-  vote:
+  app:
     build: ./application-server
     ports:
     - "8080:8080"
     volumes:
     - .:/app
+    links:
+    - db
+
+  db:
+    build: ./database-server
+    ports:
+    - "5432:5432"
+    environment:
+    - "POSTGRES_USER=test_user"
+    - "POSTGRES_PASSWORD=test_password"
