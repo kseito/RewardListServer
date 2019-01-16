@@ -40,7 +40,7 @@ class JdbcUserRepository(private val jdbcTemplate: JdbcTemplate) : UserRepositor
         return User(user.id, user.todoistId, newPoint)
     }
 
-    private fun findById(userId: Long): User? =
+    override fun findById(userId: Long): User? =
             jdbcTemplate.query("SELECT id, todoist_id, point FROM test_schema.user WHERE id = ?", rowMapper, userId).firstOrNull()
 
 

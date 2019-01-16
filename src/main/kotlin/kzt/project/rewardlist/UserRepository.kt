@@ -10,5 +10,7 @@ interface UserRepository {
 
     fun findByTodoistId(todoistId: Long): User?
 
+    fun findById(userId: Long): User?
+
     fun updatePointById(userId: Long, point: Int): User
 }
